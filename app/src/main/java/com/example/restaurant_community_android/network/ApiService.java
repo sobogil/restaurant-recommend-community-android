@@ -2,6 +2,8 @@ package com.example.restaurant_community_android.network;
 
 import com.example.restaurant_community_android.models.User;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -15,6 +17,10 @@ public interface ApiService {
     @POST("users/register")
     void createUser(@Body User user);
 
+//    @POST("users/login")
+//    void loginUser(@Body User user);
+
     @POST("users/login")
-    void loginUser(@Body User user);
+    Call<ResponseBody> loginUser(@Body User user);
+
 }
