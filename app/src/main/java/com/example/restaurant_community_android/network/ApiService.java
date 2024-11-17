@@ -9,15 +9,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiService {
-    @GET("user/{userId}")
+    @GET("users/{userId}")
     void getUser(@Path("userId") String userId, @Header("Authorization") String token);
 
-    @POST("user")
+    @POST("users/register")
     void createUser(@Body User user);
 
-    @POST("user/login")
+    @POST("users/login")
     void loginUser(@Body User user);
-
-    @POST("user/logout")
-    void logoutUser(@Header("Authorization") String token);
 }
