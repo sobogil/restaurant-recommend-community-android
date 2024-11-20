@@ -3,8 +3,6 @@ package com.example.restaurant_community_android.network;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.models.User;
 
-import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,6 +12,9 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+
+
+import java.util.List;
 
 public interface ApiService {
     @GET("users/{userId}")

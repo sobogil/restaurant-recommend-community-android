@@ -1,3 +1,7 @@
+package com.example.restaurant_community_android.models;
+
+import java.util.List;
+
 public class Post {
     private String id;
     private String userId;

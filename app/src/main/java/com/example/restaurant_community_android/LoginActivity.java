@@ -19,6 +19,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.example.restaurant_community_android.utils.TokenManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,21 +70,19 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
-                        Log.d("LoginActivity", "Response: " + response.body().string());
                         String responseBody = response.body().string();
+                        Log.d("LoginActivity", "Response: " + responseBody);
                         JSONObject jsonObject = new JSONObject(responseBody);
                         String token = jsonObject.getString("token");
 
-                        // JWT 토큰 저장
-                        getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                                .edit()
-                                .putString("jwt_token", token)
-                                .apply();
+                        // TokenManager를 사용하여 토큰 저장
+                        TokenManager tokenManager = new TokenManager(LoginActivity.this);
+                        tokenManager.saveToken(token);
 
                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
-                        // 메인 화면으로 이동
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        // PostListActivity로 이동
+                        Intent intent = new Intent(LoginActivity.this, PostListActivity.class);
                         startActivity(intent);
                         finish();
                     } catch (Exception e) {
