@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurant_community_android.adapters.PostAdapter;
+import com.example.restaurant_community_android.fragments.PostDetailFragment;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
@@ -34,6 +35,14 @@ public class PostListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         adapter = new PostAdapter();
+        adapter.setOnPostClickListener(post -> {
+            PostDetailFragment fragment = PostDetailFragment.newInstance(post.getId());
+            getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+        });
         recyclerView.setAdapter(adapter);
         
         apiService = RetrofitClient.getClient().create(ApiService.class);

@@ -1,4 +1,3 @@
-
 package com.example.restaurant_community_android.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,15 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private List<Post> posts = new ArrayList<>();
+    private OnPostClickListener listener;
+
+    public interface OnPostClickListener {
+        void onPostClick(Post post);
+    }
+
+    public void setOnPostClickListener(OnPostClickListener listener) {
+        this.listener = listener;
+    }
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
@@ -37,6 +45,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.titleTextView.setText(post.getTitle());
         holder.restaurantTextView.setText(post.getRestaurantName());
         holder.ratingBar.setRating(post.getRating());
+        
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onPostClick(post);
+            }
+        });
     }
 
     @Override
