@@ -1,4 +1,5 @@
 package com.example.restaurant_community_android.adapters;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,12 +43,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
+        Log.d("PostAdapter", "Binding post ID: " + post.getId());
         holder.titleTextView.setText(post.getTitle());
         holder.restaurantTextView.setText(post.getRestaurantName());
         holder.ratingBar.setRating(post.getRating());
         
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
+                Log.d("PostAdapter", "Clicked post ID: " + post.getId());
                 listener.onPostClick(post);
             }
         });

@@ -32,8 +32,8 @@ public interface ApiService {
     @GET("posts")
     Call<List<Post>> getPosts(@Header("Authorization") String token);
 
-    @GET("posts/{postId}")
-    Call<Post> getPost(@Path("postId") String postId);
+    @GET("posts/{id}")
+    Call<Post> getPost(@Header("Authorization") String token, @Path("id") String postId);
 
     @POST("posts")
     Call<Post> createPost(@Header("Authorization") String token, @Body Post post);

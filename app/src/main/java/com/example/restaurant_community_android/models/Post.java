@@ -2,7 +2,10 @@ package com.example.restaurant_community_android.models;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Post {
+    @SerializedName("_id")
     private String id;
     private String userId;
     private String title;
@@ -93,5 +96,15 @@ public class Post {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 } 

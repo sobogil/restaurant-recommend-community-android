@@ -1,6 +1,8 @@
 package com.example.restaurant_community_android;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurant_community_android.adapters.PostAdapter;
-import com.example.restaurant_community_android.fragments.PostDetailFragment;
+import com.example.restaurant_community_android.fragments.CreatePostFragment;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
@@ -36,12 +38,9 @@ public class PostListActivity extends AppCompatActivity {
         
         adapter = new PostAdapter();
         adapter.setOnPostClickListener(post -> {
-            PostDetailFragment fragment = PostDetailFragment.newInstance(post.getId());
-            getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+            Intent intent = new Intent(PostListActivity.this, PostDetailActivity.class);
+            intent.putExtra("postId", post.getId());
+            startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
         
@@ -49,6 +48,16 @@ public class PostListActivity extends AppCompatActivity {
         tokenManager = new TokenManager(this);
         
         loadPosts();
+
+        FloatingActionButton fab = findViewById(R.id.fabCreatePost);
+        fab.setOnClickListener(v -> {
+            CreatePostFragment fragment = new CreatePostFragment();
+            getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
+                .commit();
+        });
     }
 
     private void loadPosts() {
@@ -57,13 +66,21 @@ public class PostListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    adapter.setPosts(response.body());
+                    List<Post> posts = response.body();
+                    for (Post post : posts) {
+                        Log.d("PostListActivity", "Post ID: " + post.getId() + ", Title: " + post.getTitle());
+                    }
+                    adapter.setPosts(posts);
+                } else {
+                    Log.e("PostListActivity", "Error: " + response.code());
+                    Toast.makeText(PostListActivity.this, "Failed to load posts", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-                Toast.makeText(PostListActivity.this, "Failed to load posts", Toast.LENGTH_SHORT).show();
+                Log.e("PostListActivity", "Error: " + t.getMessage());
+                Toast.makeText(PostListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
