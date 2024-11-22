@@ -4,16 +4,23 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.restaurant_community_android.adapters.CommentAdapter;
+import com.example.restaurant_community_android.models.Comment;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
 import com.example.restaurant_community_android.utils.TokenManager;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,6 +35,10 @@ public class PostDetailActivity extends AppCompatActivity {
     private TokenManager tokenManager;
     private String postId;
     private Button deleteButton;
+    private RecyclerView commentsRecyclerView;
+    private CommentAdapter commentAdapter;
+    private EditText commentEditText;
+    private Button submitCommentButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,9 @@ public class PostDetailActivity extends AppCompatActivity {
         restaurantNameTextView = findViewById(R.id.restaurantNameTextView);
         ratingBar = findViewById(R.id.ratingBar);
         deleteButton = findViewById(R.id.deleteButton);
+        commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
+        commentEditText = findViewById(R.id.commentEditText);
+        submitCommentButton = findViewById(R.id.submitCommentButton);
 
         postId = getIntent().getStringExtra("postId");
         apiService = RetrofitClient.getClient().create(ApiService.class);
@@ -46,7 +60,14 @@ public class PostDetailActivity extends AppCompatActivity {
 
         deleteButton.setOnClickListener(v -> showDeleteConfirmDialog());
 
+        commentAdapter = new CommentAdapter();
+        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        commentsRecyclerView.setAdapter(commentAdapter);
+        
+        submitCommentButton.setOnClickListener(v -> submitComment());
+        
         loadPostDetail();
+        loadComments();
     }
 
     private void loadPostDetail() {
@@ -102,6 +123,54 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(PostDetailActivity.this, "Error deleting post", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadComments() {
+        apiService.getComments(postId).enqueue(new Callback<List<Comment>>() {
+            @Override
+            public void onResponse(Call<List<Comment>> call, Response<List<Comment>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    commentAdapter.setComments(response.body());
+                } else {
+                    Toast.makeText(PostDetailActivity.this, "댓글을 불러오는데 실패했습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Comment>> call, Throwable t) {
+                Toast.makeText(PostDetailActivity.this, "댓글을 불러오는데 실패했습니다", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void submitComment() {
+        String content = commentEditText.getText().toString().trim();
+        if (content.isEmpty()) {
+            Toast.makeText(this, "댓글 내용을 입력해주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Comment comment = new Comment();
+        comment.setContent(content);
+
+        String token = tokenManager.getToken();
+        apiService.addComment(token, postId, comment).enqueue(new Callback<Comment>() {
+            @Override
+            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                if (response.isSuccessful()) {
+                    commentEditText.setText("");
+                    loadComments();  // 댓글 목록 새로고침
+                    Toast.makeText(PostDetailActivity.this, "댓글이 등록되었습니다", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PostDetailActivity.this, "댓글 등록에 실패했습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comment> call, Throwable t) {
+                Toast.makeText(PostDetailActivity.this, "댓글 등록에 실패했습니다", Toast.LENGTH_SHORT).show();
             }
         });
     }

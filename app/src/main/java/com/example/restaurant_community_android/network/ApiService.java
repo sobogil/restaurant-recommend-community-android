@@ -1,5 +1,6 @@
 package com.example.restaurant_community_android.network;
 
+import com.example.restaurant_community_android.models.Comment;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.models.User;
 
@@ -20,8 +21,7 @@ public interface ApiService {
     @GET("users/{userId}")
     void getUser(@Path("userId") String userId, @Header("Authorization") String token);
 
-    @POST("users/register")
-    void createUser(@Body User user);
+
 
 //    @POST("users/login")
 //    void loginUser(@Body User user);
@@ -46,4 +46,13 @@ public interface ApiService {
 
     @POST("users/register")
     Call<ResponseBody> register(@Body User user);
+
+    @POST("comments/{postId}")
+    Call<Comment> addComment(@Header("Authorization") String token, @Path("postId") String postId, @Body Comment comment);
+
+    @GET("comments/{postId}")
+    Call<List<Comment>> getComments(@Path("postId") String postId);
+
+    @DELETE("comments/{commentId}")
+    Call<Void> deleteComment(@Header("Authorization") String token, @Path("commentId") String commentId);
 }
