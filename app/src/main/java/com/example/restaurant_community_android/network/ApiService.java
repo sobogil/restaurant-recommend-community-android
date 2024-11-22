@@ -43,4 +43,7 @@ public interface ApiService {
 
     @DELETE("posts/{postId}")
     Call<Void> deletePost(@Header("Authorization") String token, @Path("postId") String postId);
+
+    @POST("users/register")
+    Call<ResponseBody> register(@Body User user);
 }
