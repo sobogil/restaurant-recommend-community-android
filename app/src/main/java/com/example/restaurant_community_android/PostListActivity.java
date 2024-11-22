@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurant_community_android.adapters.PostAdapter;
-import com.example.restaurant_community_android.fragments.CreatePostFragment;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
@@ -51,13 +50,15 @@ public class PostListActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fabCreatePost);
         fab.setOnClickListener(v -> {
-            CreatePostFragment fragment = new CreatePostFragment();
-            getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+            Intent intent = new Intent(PostListActivity.this, CreatePostActivity.class);
+            startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPosts();  // 화면이 다시 보일 때마다 게시글 목록 새로고침
     }
 
     private void loadPosts() {
