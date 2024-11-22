@@ -5,7 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+//import androidx.navigation.ui.AppBarConfiguration;
+//import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +20,7 @@ import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
 import com.example.restaurant_community_android.utils.TokenManager;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
@@ -26,11 +33,40 @@ public class PostListActivity extends AppCompatActivity {
     private PostAdapter adapter;
     private ApiService apiService;
     private TokenManager tokenManager;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+            this, drawerLayout, toolbar, 
+            R.string.navigation_drawer_open, 
+            R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_posts) {
+                // 현재 화면이므로 아무것도 하지 않음
+            } else if (id == R.id.nav_create_post) {
+                startActivity(new Intent(this, CreatePostActivity.class));
+            } else if (id == R.id.nav_logout) {
+                tokenManager.clearToken();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -84,5 +120,14 @@ public class PostListActivity extends AppCompatActivity {
                 Toast.makeText(PostListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 } 
