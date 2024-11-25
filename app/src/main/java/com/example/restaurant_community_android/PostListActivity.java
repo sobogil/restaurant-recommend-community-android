@@ -63,6 +63,8 @@ public class PostListActivity extends AppCompatActivity {
                 tokenManager.clearToken();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;

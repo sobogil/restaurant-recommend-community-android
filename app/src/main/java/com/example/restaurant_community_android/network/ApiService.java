@@ -16,6 +16,7 @@ import retrofit2.http.Path;
 
 
 import java.util.List;
+import java.util.Map;
 
 public interface ApiService {
     @GET("users/{userId}")
@@ -55,4 +56,10 @@ public interface ApiService {
 
     @DELETE("comments/{commentId}")
     Call<Void> deleteComment(@Header("Authorization") String token, @Path("commentId") String commentId);
+
+    @GET("users/profile")
+    Call<User> getUserProfile(@Header("Authorization") String token);
+
+    @PUT("users/profile")
+    Call<User> updateUserProfile(@Header("Authorization") String token, @Body Map<String, String> updateData);
 }
