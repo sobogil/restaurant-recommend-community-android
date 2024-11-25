@@ -1,23 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@android:color/white">
+    android:padding="32dp"
+    android:background="@color/background_dark">
 
-    <EditText
-        android:id="@+id/titleEditText"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="새 게시글 작성"
+        android:textSize="32sp"
+        android:textColor="@color/text_primary_light"
+        android:fontFamily="@font/roboto_medium"
+        android:layout_marginBottom="32dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <EditText
-        android:id="@+id/restaurantNameEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="제목"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Restaurant Name"
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/restaurantNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="식당 이름"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="평점"
+        android:textSize="16sp"
+        android:textColor="@color/text_secondary_light"
         android:layout_marginBottom="8dp"/>
 
     <RatingBar
@@ -26,21 +64,36 @@
         android:layout_height="wrap_content"
         android:numStars="5"
         android:stepSize="0.5"
-        android:layout_marginBottom="8dp"/>
+        android:progressTint="@color/accent_color"
+        android:layout_marginBottom="16dp"/>
 
-    <EditText
-        android:id="@+id/contentEditText"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="top"
-        android:hint="Content"
-        android:inputType="textMultiLine"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/contentEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="내용"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Create Post"/>
+        android:layout_height="56dp"
+        android:text="게시글 작성"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/accent_color"/>
+
 </LinearLayout> 

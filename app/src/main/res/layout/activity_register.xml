@@ -1,46 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/background_dark"
+    android:padding="32dp">
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_marginBottom="8dp"/>
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/app_logo"
+        android:layout_gravity="center"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="32dp"/>
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="8dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textSize="32sp"
+        android:textColor="@color/text_primary_light"
+        android:fontFamily="@font/roboto_medium"
+        android:layout_marginBottom="32dp"/>
 
-    <EditText
-        android:id="@+id/confirmPasswordEditText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="8dp"/>
-
-    <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="Username"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
-
-    <Button
-        android:id="@+id/registerButton"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"/>
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="이메일"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호"
+            android:inputType="textPassword"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호 확인"
+            android:inputType="textPassword"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:boxStrokeColor="@color/accent_color"
+        android:textColorHint="@color/text_secondary_light"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="사용자 이름"
+            android:inputType="text"
+            android:textColor="@color/text_primary_light"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="회원가입"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/accent_color"/>
 
 </LinearLayout> 

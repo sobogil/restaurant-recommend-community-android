@@ -1,6 +1,7 @@
 package com.example.restaurant_community_android;
 
 import android.app.AlertDialog;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
 import com.example.restaurant_community_android.utils.TokenManager;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +45,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private EditText commentEditText;
     private Button submitCommentButton;
-    private ImageButton likeButton;
+    private MaterialButton likeButton;
     private TextView likeCountTextView;
     private boolean isLiked = false;
     private int likeCount = 0;
@@ -79,7 +81,6 @@ public class PostDetailActivity extends AppCompatActivity {
         loadPostDetail();
         loadComments();
 
-        loadLikes();
         likeButton.setOnClickListener(v -> toggleLike());
     }
 
@@ -222,7 +223,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(PostDetailActivity.this, "좋아요 취소 실패", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PostDetailActivity.this, "좋��요 취소 실패", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -248,8 +249,13 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void updateLikeUI() {
-        likeButton.setImageResource(isLiked ? 
-            R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+        if (isLiked) {
+            likeButton.setIcon(getDrawable(R.drawable.ic_favorite));
+            likeButton.setIconTint(ColorStateList.valueOf(getColor(R.color.accent_color)));
+        } else {
+            likeButton.setIcon(getDrawable(R.drawable.ic_favorite_border));
+            likeButton.setIconTint(ColorStateList.valueOf(getColor(R.color.accent_color)));
+        }
         likeCountTextView.setText(String.valueOf(likeCount));
     }
 } 
