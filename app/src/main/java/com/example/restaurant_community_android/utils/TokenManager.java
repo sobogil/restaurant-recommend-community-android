@@ -4,23 +4,35 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class TokenManager {
-    private static final String PREFS_NAME = "auth_prefs";
-    private static final String TOKEN_KEY = "jwt_token";
-    private SharedPreferences sharedPreferences;
+    private static final String PREF_NAME = "AuthPrefs";
+    private static final String KEY_TOKEN = "token";
+    private static final String KEY_USER_ID = "userId";
+    private SharedPreferences prefs;
 
     public TokenManager(Context context) {
-        this.sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
     public void saveToken(String token) {
-        sharedPreferences.edit().putString(TOKEN_KEY, token).apply();
+        prefs.edit().putString(KEY_TOKEN, token).apply();
     }
 
     public String getToken() {
-        return sharedPreferences.getString(TOKEN_KEY, null);
+        return prefs.getString(KEY_TOKEN, null);
+    }
+
+    public void saveUserId(String userId) {
+        prefs.edit().putString(KEY_USER_ID, userId).apply();
+    }
+
+    public String getUserId() {
+        return prefs.getString(KEY_USER_ID, null);
     }
 
     public void clearToken() {
-        sharedPreferences.edit().remove(TOKEN_KEY).apply();
+        prefs.edit()
+            .remove(KEY_TOKEN)
+            .remove(KEY_USER_ID)
+            .apply();
     }
 }

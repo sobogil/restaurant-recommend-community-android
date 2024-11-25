@@ -65,6 +65,8 @@ public class PostListActivity extends AppCompatActivity {
                 finish();
             } else if (id == R.id.nav_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
+            } else if (id == R.id.nav_restaurant_search) {
+                startActivity(new Intent(this, RestaurantSearchActivity.class));
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;

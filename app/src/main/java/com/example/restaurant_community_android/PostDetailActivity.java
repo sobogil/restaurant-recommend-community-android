@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurant_community_android.adapters.CommentAdapter;
 import com.example.restaurant_community_android.models.Comment;
+import com.example.restaurant_community_android.models.Like;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.network.ApiService;
 import com.example.restaurant_community_android.network.RetrofitClient;
 import com.example.restaurant_community_android.utils.TokenManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +43,10 @@ public class PostDetailActivity extends AppCompatActivity {
     private CommentAdapter commentAdapter;
     private EditText commentEditText;
     private Button submitCommentButton;
+    private ImageButton likeButton;
+    private TextView likeCountTextView;
+    private boolean isLiked = false;
+    private int likeCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,8 @@ public class PostDetailActivity extends AppCompatActivity {
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
         commentEditText = findViewById(R.id.commentEditText);
         submitCommentButton = findViewById(R.id.submitCommentButton);
+        likeButton = findViewById(R.id.likeButton);
+        likeCountTextView = findViewById(R.id.likeCountTextView);
 
         postId = getIntent().getStringExtra("postId");
         apiService = RetrofitClient.getClient().create(ApiService.class);
@@ -68,6 +78,9 @@ public class PostDetailActivity extends AppCompatActivity {
         
         loadPostDetail();
         loadComments();
+
+        loadLikes();
+        likeButton.setOnClickListener(v -> toggleLike());
     }
 
     private void loadPostDetail() {
@@ -173,5 +186,70 @@ public class PostDetailActivity extends AppCompatActivity {
                 Toast.makeText(PostDetailActivity.this, "댓글 등록에 실패했습니다", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void loadLikes() {
+        apiService.getLikes(postId).enqueue(new Callback<Map<String, Object>>() {
+            @Override
+            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Map<String, Object> result = response.body();
+                    likeCount = ((Double) result.get("count")).intValue();
+                    updateLikeUI();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
+                Toast.makeText(PostDetailActivity.this, "좋아요 정보 로딩 실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void toggleLike() {
+        String token = tokenManager.getToken();
+        if (isLiked) {
+            apiService.removeLike(token, postId).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        isLiked = false;
+                        likeCount--;
+                        updateLikeUI();
+                        Toast.makeText(PostDetailActivity.this, "좋아요를 취소했습니다", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(PostDetailActivity.this, "좋아요 취소 실패", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Map<String, String> body = new HashMap<>();
+            body.put("postId", postId);
+            apiService.addLike(token, body).enqueue(new Callback<Like>() {
+                @Override
+                public void onResponse(Call<Like> call, Response<Like> response) {
+                    if (response.isSuccessful()) {
+                        isLiked = true;
+                        likeCount++;
+                        updateLikeUI();
+                        Toast.makeText(PostDetailActivity.this, "좋아요!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Like> call, Throwable t) {
+                    Toast.makeText(PostDetailActivity.this, "좋아요 실패", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void updateLikeUI() {
+        likeButton.setImageResource(isLiked ? 
+            R.drawable.ic_favorite : R.drawable.ic_favorite_border);
+        likeCountTextView.setText(String.valueOf(likeCount));
     }
 } 

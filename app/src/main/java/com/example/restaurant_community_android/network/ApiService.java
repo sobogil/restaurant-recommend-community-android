@@ -1,8 +1,11 @@
 package com.example.restaurant_community_android.network;
 
 import com.example.restaurant_community_android.models.Comment;
+import com.example.restaurant_community_android.models.Like;
 import com.example.restaurant_community_android.models.Post;
 import com.example.restaurant_community_android.models.User;
+import com.example.restaurant_community_android.models.Restaurant;
+import com.example.restaurant_community_android.models.RestaurantResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -13,7 +16,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
-
+import retrofit2.http.Query;
 
 import java.util.List;
 import java.util.Map;
@@ -62,4 +65,16 @@ public interface ApiService {
 
     @PUT("users/profile")
     Call<User> updateUserProfile(@Header("Authorization") String token, @Body Map<String, String> updateData);
+
+    @GET("restaurants")
+    Call<RestaurantResponse> searchRestaurants(@Query("q") String query);
+
+    @POST("likes")
+    Call<Like> addLike(@Header("Authorization") String token, @Body Map<String, String> postId);
+
+    @DELETE("likes/{postId}")
+    Call<Void> removeLike(@Header("Authorization") String token, @Path("postId") String postId);
+
+    @GET("likes/{postId}")
+    Call<Map<String, Object>> getLikes(@Path("postId") String postId);
 }

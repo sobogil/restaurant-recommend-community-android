@@ -52,52 +52,43 @@ public class LoginActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "이메일과 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show();
             return;
         }
-        Log.d("LoginActivity", "Email: " + email + ", Password: " + password);
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
 
-        // 사용자 객체 생성
+        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
+        TokenManager tokenManager = new TokenManager(this);
+
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        Log.d("LoginActivity", "User: " + user.toString());
-        Call<ResponseBody> call = apiService.loginUser(user);
-        Log.d("LoginActivity", "Call: " + call.request().url());
-        call.enqueue(new Callback<ResponseBody>() {
+
+        apiService.loginUser(user).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     try {
-                        String responseBody = response.body().string();
-                        Log.d("LoginActivity", "Response: " + responseBody);
-                        JSONObject jsonObject = new JSONObject(responseBody);
+                        String responseData = response.body().string();
+                        JSONObject jsonObject = new JSONObject(responseData);
                         String token = jsonObject.getString("token");
-
-                        // TokenManager를 사용하여 토큰 저장
-                        TokenManager tokenManager = new TokenManager(LoginActivity.this);
+                        
                         tokenManager.saveToken(token);
-
-                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-
-                        // PostListActivity로 이동
+                        
                         Intent intent = new Intent(LoginActivity.this, PostListActivity.class);
                         startActivity(intent);
                         finish();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(LoginActivity.this, "Error parsing response", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "로그인 처리 중 오류가 발생했습니다", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Login failed. Check your credentials", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "이메일 또는 비밀번호가 올바르지 않습니다", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("LoginActivity", "Error: " + t.getMessage());
-                Toast.makeText(LoginActivity.this, "Login failed. Please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "서버 연결에 실패했습니다", Toast.LENGTH_SHORT).show();
             }
         });
     }

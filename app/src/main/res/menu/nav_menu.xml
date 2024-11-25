@@ -12,4 +12,7 @@
     <item
         android:id="@+id/nav_profile"
         android:title="Profile" />
+    <item
+        android:id="@+id/nav_restaurant_search"
+        android:title="맛집 검색"/>
 </menu> 
