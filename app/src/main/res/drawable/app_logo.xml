@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- 배경 원 -->
+    <path
+        android:fillColor="@color/accent_color"
+        android:pathData="M60,60m-54,0a54,54 0,1 1,108 0a54,54 0,1 1,-108 0"/>
+
+    <!-- 포크 아이콘 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M45,30 L48,30 L48,90 L45,90 L45,30 M39,30 L42,30 L42,90 L39,90 L39,30 M51,30 L54,30 L54,90 L51,90 L51,30"/>
+
+    <!-- 나이프 아이콘 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M66,30 L81,30 L81,33 L75,39 L75,90 L72,90 L72,39 L66,33 L66,30"/>
+
+</vector> 

@@ -53,6 +53,6 @@
         app:itemTextColor="@color/text_primary_light"
         app:itemIconTint="@color/text_primary_light"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/nav_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout> 
