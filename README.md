@@ -37,14 +37,14 @@
 
 ## 프로젝트 구조
 
-app/
-├── java/
-│ └── com.example.restaurant_community_android/
-│ ├── adapters/ 
-│ ├── models/ # 데이터 모델
-│ ├── network/ # API 통신 관련
-│ └── utils/ # 유틸리티 클래스
-└── res/ # 리소스 파일
+app/  
+├── java/  
+│ └── com.example.restaurant_community_android/  
+│ ├── adapters/  
+│ ├── models/  
+│ ├── network/  
+│ └── utils/  
+└── res/ 
 
 ## 주요 화면
 
