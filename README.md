@@ -40,8 +40,7 @@
 app/
 ├── java/
 │ └── com.example.restaurant_community_android/
-│ ├── activities/ # 화면 컨트롤러
-│ ├── adapters/ # RecyclerView 어댑터
+│ ├── adapters/ 
 │ ├── models/ # 데이터 모델
 │ ├── network/ # API 통신 관련
 │ └── utils/ # 유틸리티 클래스
@@ -50,37 +49,36 @@ app/
 ## 주요 화면
 
 ### 1. 메인 화면
-![메인 화면](assets/main.png)
+<img src="assets/main.png" width="300" alt="메인 화면"/>
 - 앱 로고와 소개 문구
 - 로그인/회원가입 버튼
 
 ### 2. 게시글 목록
-![게시글 목록](assets/postlist.png)
+<img src="assets/postlist.png" width="300" alt="게시글 목록"/>
 - 게시글 목록 표시
 - 플로팅 작성 버튼
 - 네비게이션 드로어
 
 ### 3. 게시글 상세
-![게시글 상세](assets/postdetail.png)
+<img src="assets/postdetail.png" width="300" alt="게시글 상세"/>
 - 게시글 내용
 - 댓글 시스템
 - 좋아요 기능
 
-
 ### 4. 게시글 작성
-![게시글 작성](assets/createpost.png)
+<img src="assets/createpost.png" width="300" alt="게시글 작성"/>
 - 제목 입력
 - 식당 이름 입력
 - 내용 작성
 
 ### 5. 맛집 검색
-![맛집 검색](assets/restaurant.png)
+<img src="assets/restaurant.png" width="300" alt="맛집 검색"/>
 - 실시간 검색
 - 검색 결과 목록
 - 상세 정보 표시
 
 ### 6. 프로필
-![프로필](assets/profile.png)
+<img src="assets/profile.png" width="300" alt="프로필"/>
 - 사용자 정보 표시
 - 프로필 수정
 - 비밀번호 변경
