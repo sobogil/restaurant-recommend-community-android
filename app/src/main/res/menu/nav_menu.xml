@@ -7,12 +7,13 @@
         android:id="@+id/nav_create_post"
         android:title="Create Post" />
     <item
-        android:id="@+id/nav_logout"
-        android:title="Logout" />
-    <item
         android:id="@+id/nav_profile"
         android:title="Profile" />
     <item
         android:id="@+id/nav_restaurant_search"
-        android:title="맛집 검색"/>
+        android:title="Restaurant search"/>
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Logout" />
+
 </menu> 

@@ -189,24 +189,6 @@ public class PostDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void loadLikes() {
-        apiService.getLikes(postId).enqueue(new Callback<Map<String, Object>>() {
-            @Override
-            public void onResponse(Call<Map<String, Object>> call, Response<Map<String, Object>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Map<String, Object> result = response.body();
-                    likeCount = ((Double) result.get("count")).intValue();
-                    updateLikeUI();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Map<String, Object>> call, Throwable t) {
-                Toast.makeText(PostDetailActivity.this, "좋아요 정보 로딩 실패", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void toggleLike() {
         String token = tokenManager.getToken();
         if (isLiked) {

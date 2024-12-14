@@ -21,14 +21,6 @@ public class TokenManager {
         return prefs.getString(KEY_TOKEN, null);
     }
 
-    public void saveUserId(String userId) {
-        prefs.edit().putString(KEY_USER_ID, userId).apply();
-    }
-
-    public String getUserId() {
-        return prefs.getString(KEY_USER_ID, null);
-    }
-
     public void clearToken() {
         prefs.edit()
             .remove(KEY_TOKEN)

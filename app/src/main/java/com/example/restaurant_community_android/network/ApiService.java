@@ -22,14 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface ApiService {
-    @GET("users/{userId}")
-    void getUser(@Path("userId") String userId, @Header("Authorization") String token);
-
-
-
-//    @POST("users/login")
-//    void loginUser(@Body User user);
-
     @POST("users/login")
     Call<ResponseBody> loginUser(@Body User user);
 
