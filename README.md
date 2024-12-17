@@ -1,10 +1,10 @@
 # 맛집 커뮤니티 안드로이드 앱
 
 ## 프로젝트 소개
-맛집 커뮤니티 앱은 사용자들이 맛집 정보를 공유하고 소통할 수 있는 플랫폼입니다. 해당 프로젝트는 프론트만 구현되어 있습니다. 
-백엔드 구현은 아래 링크에서 확인할 수 있습니다.
+맛집 커뮤니티 앱은 사용자들이 맛집 정보를 공유하고 소통할 수 있는 플랫폼입니다. 해당 프로젝트는 api를 받아서 이용하도록 되어 있습니다. 
+api 서버 구현은 아래 링크에서 확인할 수 있습니다.
 
-[백엔드 링크](https://github.com/sobogil/restaurant-recommend-community)
+https://github.com/sobogil/restaurant-recommend-community
 
 ## 주요 기능
 - **사용자 관리**
@@ -23,17 +23,12 @@
   - 상세 정보 확인
 
 ## 기술 스택
-- **Frontend**
+- **Moblie**
   - Android (Java)
-  - Material Design Components
-  - RecyclerView
-  - ViewPager2
-  - Navigation Drawer
 
 - **Network**
   - Retrofit2
   - OkHttp3
-  - JWT 인증
 
 ## 프로젝트 구조
 
